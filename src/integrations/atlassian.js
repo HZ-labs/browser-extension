@@ -1,3 +1,36 @@
+//Jira Cloud redesign of issue page 2019-06
+clockifyButton.render(
+    '#jira-issue-header:not(.clockify)',
+    { observe: true },
+    (elem) => {
+        let link,
+            issueNumberElement,
+            container,
+            titleElement,
+            description,
+            projectElement;
+
+        issueNumberElement = $('a[href^="/browse/"][target=_blank]:not([role=list-item])', elem);
+        container = issueNumberElement.parentNode.nextElementSibling;
+        titleElement = $('h1', container);
+
+        description = '';
+        if (issueNumberElement) {
+            description += issueNumberElement.textContent.trim();
+        }
+
+        if (titleElement) {
+            if (description) description += ' ';
+            description += titleElement.textContent.trim();
+        }
+
+        link = clockifyButton.createButton(description);
+        link.style.position = "relative";
+
+        issueNumberElement.parentNode.appendChild(link);
+    }
+);
+
 // Jira 2018-11 issue page. Uses functions for timer values due to SPA on issue-lists.
 clockifyButton.render(
   '.new-issue-container:not(.clockify)',
